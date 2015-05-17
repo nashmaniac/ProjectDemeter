@@ -21,6 +21,11 @@ public class MainFragment extends Fragment {
     private static final String TAG = MainFragment.class.getSimpleName();
     private TextView mAmountView;
 
+    private static final int DECREASE = -1;
+    private static final int INCREASE = 1;
+    private static final int SMALL_STEP = 1;
+    private static final int LARGE_STEP = 10;
+
 
     public MainFragment() {
         // Required empty public constructor
@@ -37,14 +42,40 @@ public class MainFragment extends Fragment {
         new SwipeDetector(mAmountView).setOnSwipeListener(new SwipeDetector.onSwipeEvent(){
             @Override
             public void SwipeEventDetected(View v, SwipeDetector.SwipeTypeEnum swipeType) {
-                if(swipeType == SwipeDetector.SwipeTypeEnum.LEFT_TO_RIGHT)
-                    Toast.makeText(getActivity(), "The number will be increased", Toast.LENGTH_SHORT).show();
-                else if(swipeType == SwipeDetector.SwipeTypeEnum.RIGHT_TO_LEFT)
-                    Toast.makeText(getActivity(), "The number will be decreased", Toast.LENGTH_SHORT).show();
+                if (swipeType == SwipeDetector.SwipeTypeEnum.LEFT_TO_RIGHT) {
+                    changeAmountInView(LARGE_STEP, DECREASE);
+                } else if (swipeType == SwipeDetector.SwipeTypeEnum.RIGHT_TO_LEFT) {
+                    changeAmountInView(LARGE_STEP, INCREASE);
+                } else if(swipeType == SwipeDetector.SwipeTypeEnum.BOTTOM_TO_TOP){
+                    changeAmountInView(SMALL_STEP, INCREASE);
+                }else{
+                    changeAmountInView(SMALL_STEP,DECREASE);
+                }
             }
         });
 
         return v;
+    }
+
+    /*
+    * Function : changeAmountInView(amount to change by, increase or decrease)
+    * ------------------------------------------------------------------------
+    * Changes the amount visible in the Text View in the app by the difference
+    * that is equal to what is supplied as the first argument
+    * INCREASE = 1, DECREASE = -1, are initialized as constants
+    * In the second argument if INCREASE(1) is supplied then increases the amount in
+    * the view by the supplied amount, if DECREASE(-1) is supplied then decreases the amount
+    *
+    * Avoids going negative.
+    */
+
+    private void changeAmountInView(int changeBy, int increaseOrDecrease) {
+        int currentAmount = (int) Integer.parseInt(mAmountView.getText().toString());
+        // increaseOrDecrease can hold a value of only 1 or -1
+        int newAmount = currentAmount + ((changeBy) * increaseOrDecrease);
+        if(newAmount < 0) return;
+
+        mAmountView.setText(Integer.toString(newAmount));
     }
 
 
