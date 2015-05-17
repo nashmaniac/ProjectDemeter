@@ -14,8 +14,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // We will be rather replacing it with a fragment
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment mainFragment = fm.findFragmentById(R.id.container_fragment);

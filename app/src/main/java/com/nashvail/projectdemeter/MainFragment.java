@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /*
 * Class : MainFragment
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 
 public class MainFragment extends Fragment {
 
+    private TextView mAmountView;
 
     public MainFragment() {
         // Required empty public constructor
@@ -26,6 +28,10 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main, container, false);
+        mAmountView = (TextView) v.findViewById(R.id.text_view_amount);
+
+        // we will have to detect the swipes and taps on this view right here
+
         return v;
     }
 
