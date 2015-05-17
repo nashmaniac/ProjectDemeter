@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     >
 
+    <!--The TextView that will view the amount to be selected by the user-->
     <TextView
         android:id = "@+id/text_view_amount"
         android:layout_width="match_parent"
