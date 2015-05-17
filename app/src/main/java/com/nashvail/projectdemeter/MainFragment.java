@@ -34,12 +34,13 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         mAmountView = (TextView) v.findViewById(R.id.text_view_amount);
 
-        // we will have to detect the swipes and taps on this view right here
-        mAmountView.setOnTouchListener(new View.OnTouchListener(){
+        new SwipeDetector(mAmountView).setOnSwipeListener(new SwipeDetector.onSwipeEvent(){
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Toast.makeText(getActivity(), "The view was touched", Toast.LENGTH_SHORT).show();
-                return false;
+            public void SwipeEventDetected(View v, SwipeDetector.SwipeTypeEnum swipeType) {
+                if(swipeType == SwipeDetector.SwipeTypeEnum.LEFT_TO_RIGHT)
+                    Toast.makeText(getActivity(), "The number will be increased", Toast.LENGTH_SHORT).show();
+                else if(swipeType == SwipeDetector.SwipeTypeEnum.RIGHT_TO_LEFT)
+                    Toast.makeText(getActivity(), "The number will be decreased", Toast.LENGTH_SHORT).show();
             }
         });
 
