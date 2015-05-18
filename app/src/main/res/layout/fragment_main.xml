@@ -1,14 +1,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id = "@+id/main_fragment"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.nashvail.projectdemeter.MainFragment"
     android:background="#2C3133"
     >
 
+    <TextSwitcher
+        android:id = "@+id/textSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        />
+
     <TextView
         android:id = "@+id/text_view_amount"
         android:layout_height="wrap_content"
         android:layout_width = "match_parent"
-        android:text = "0"
         android:gravity = "center"
         android:textStyle="bold"
         android:textSize="115sp"

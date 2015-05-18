@@ -1,14 +1,22 @@
 package com.nashvail.projectdemeter;
 
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 /*
 * Class : MainFragment
@@ -20,6 +28,9 @@ public class MainFragment extends Fragment {
 
     private static final String TAG = MainFragment.class.getSimpleName();
     private TextView mAmountView;
+
+    private TextSwitcher mSwitcher;
+    private TextView amountView;
 
     private static final int DECREASE = -1;
     private static final int INCREASE = 1;
@@ -37,9 +48,35 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main, container, false);
+        mSwitcher = (TextSwitcher) v.findViewById(R.id.textSwitcher);
         mAmountView = (TextView) v.findViewById(R.id.text_view_amount);
+        mSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                amountView = new TextView(getActivity());
+                amountView.setGravity(Gravity.CENTER);
+                amountView.setTextSize(115);
+                amountView.setTextColor(Color.WHITE);
+                amountView.setTypeface(null, Typeface.BOLD);
 
-        new SwipeDetector(mAmountView).setOnSwipeListener(new SwipeDetector.onSwipeEvent(){
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+                params.gravity = Gravity.CENTER;
+                amountView.setLayoutParams(params);
+                return amountView;
+            }
+        });
+
+        // The required animations for animating the text in view
+        Animation in = AnimationUtils.loadAnimation(getActivity(), R.anim.slidedown_in);
+        Animation out = AnimationUtils.loadAnimation(getActivity(), R.anim.slidedown_out);
+        mSwitcher.setInAnimation(in);
+        mSwitcher.setOutAnimation(out);
+
+        // Set the default text for the TextSwitcher
+        mSwitcher.setText(Integer.toString(0));
+
+        new SwipeDetector(mSwitcher).setOnSwipeListener(new SwipeDetector.onSwipeEvent(){
             @Override
             public void SwipeEventDetected(View v, SwipeDetector.SwipeTypeEnum swipeType) {
                 if (swipeType == SwipeDetector.SwipeTypeEnum.LEFT_TO_RIGHT) {
@@ -58,7 +95,7 @@ public class MainFragment extends Fragment {
     }
 
     /*
-    * Function : changeAmountInView(amount to change by, increase or decrease)
+    * Function : changeAmountInView(amount to change by, INCREASE or DECREASE)
     * ------------------------------------------------------------------------
     * Changes the amount visible in the Text View in the app by the difference
     * that is equal to what is supplied as the first argument
@@ -70,12 +107,14 @@ public class MainFragment extends Fragment {
     */
 
     private void changeAmountInView(int changeBy, int increaseOrDecrease) {
-        int currentAmount = (int) Integer.parseInt(mAmountView.getText().toString());
+        int currentAmount = (int) Integer.parseInt(amountView.getText().toString());
         // increaseOrDecrease can hold a value of only 1 or -1
         int newAmount = currentAmount + ((changeBy) * increaseOrDecrease);
         if(newAmount < 0) return;
 
-        mAmountView.setText(Integer.toString(newAmount));
+//        mAmountView.setText(Integer.toString(newAmount));
+        amountView.setText(Integer.toString(newAmount));
+        mSwitcher.setText(Integer.toString(newAmount));
     }
 
 
