@@ -41,6 +41,13 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         mAmountView = (EditText) v.findViewById(R.id.text_view_amount);
 
+        mAmountView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(getActivity(), "The field will be reset soon", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
         new SwipeDetector(mAmountView).setOnSwipeListener(new SwipeDetector.onSwipeEvent(){
             // This becomes an anonymous inner interface in this case
             @Override
