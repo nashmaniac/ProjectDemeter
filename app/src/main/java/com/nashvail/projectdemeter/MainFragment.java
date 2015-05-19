@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,16 +20,17 @@ import android.widget.Toast;
 public class MainFragment extends Fragment {
 
     private static final String TAG = MainFragment.class.getSimpleName();
-    private TextView mAmountView;
+    private EditText mAmountView;
 
     private static final int DECREASE = -1;
     private static final int INCREASE = 1;
-    private static final int SMALL_STEP = 1;
+    private static final int SMALL_STEP = 5;
     private static final int LARGE_STEP = 10;
 
 
     public MainFragment() {
         // Required empty public constructor
+        // If you didn't already know the tree traversals are of 3 types
     }
 
 
@@ -37,9 +39,10 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        mAmountView = (TextView) v.findViewById(R.id.text_view_amount);
+        mAmountView = (EditText) v.findViewById(R.id.text_view_amount);
 
         new SwipeDetector(mAmountView).setOnSwipeListener(new SwipeDetector.onSwipeEvent(){
+            // This becomes an anonymous inner interface in this case
             @Override
             public void SwipeEventDetected(View v, SwipeDetector.SwipeTypeEnum swipeType) {
                 if (swipeType == SwipeDetector.SwipeTypeEnum.LEFT_TO_RIGHT) {

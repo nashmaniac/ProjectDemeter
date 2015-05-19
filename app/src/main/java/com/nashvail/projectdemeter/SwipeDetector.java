@@ -13,24 +13,25 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class SwipeDetector implements View.OnTouchListener{
+	// View.OnTouchListener is an interface that you have to implement
 
     private int min_distance = 100;
     private float downX, downY, upX, upY;
     private View v;
 
+ 	// You just referenced an interface right here the one that you declared down below
     private onSwipeEvent swipeEventListener;
 
-
-
+ 	// This is the constructor for this class
     public SwipeDetector(View v){
-        this.v=v;
+        this.v = v;
         v.setOnTouchListener(this);
     }
 
-    public void setOnSwipeListener(onSwipeEvent listener)
-    {
+ 	// This is a function but has a very curious argument this thing has
+    public void setOnSwipeListener(onSwipeEvent listener){
         try{
-            swipeEventListener=listener;
+            swipeEventListener = listener;
         }
         catch(ClassCastException e)
         {
@@ -126,19 +127,22 @@ public class SwipeDetector implements View.OnTouchListener{
         }
         return false;
     }
-    public interface onSwipeEvent
-    {
+
+    // This thing right over here is an interface
+    public interface onSwipeEvent{
+    	// this is left to the user to do of what is done when the a swipe event is detected alright alright 
+    	// so this is me just trying to understand the code right here don't worry about me 
         public void SwipeEventDetected(View v, SwipeTypeEnum SwipeType);
     }
 
-    public SwipeDetector setMinDistanceInPixels(int min_distance)
-    {
+    // This is a class Method that returns the class itself that can lead to formation of a very fluent API
+    public SwipeDetector setMinDistanceInPixels(int min_distance){
         this.min_distance=min_distance;
         return this;
     }
 
-    public enum SwipeTypeEnum
-    {
+    // This is just a simple enumeration to give words to simple integers
+    public enum SwipeTypeEnum{
         RIGHT_TO_LEFT,LEFT_TO_RIGHT,TOP_TO_BOTTOM,BOTTOM_TO_TOP
     }
 
